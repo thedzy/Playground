@@ -171,7 +171,6 @@ if __name__ == '__main__':
         except TypeError:
             return format_class
 
-
     parser = argparse.ArgumentParser(description='Will find all the words in a given/generated puzzle using a dictionary of choice.',
                                      formatter_class=parser_formatter(argparse.RawTextHelpFormatter, indent_increment=4, max_help_position=12, width=160))
     parser._positionals.title = 'Positional arguments'
