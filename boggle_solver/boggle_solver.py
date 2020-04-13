@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Script:	progress_bar1.py
+Script:	boggle_solver.py
 Date:	2020-04-11
 
 Platform: macOS
