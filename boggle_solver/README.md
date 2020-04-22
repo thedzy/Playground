@@ -47,3 +47,6 @@ Only way to know for sure, was to do it.  So I did it.  Here it is.
 While sorting the dictionary made huge improvements in speed, it is still a little slow when it gets into long words, big puzzles, or some combination of the two.
 
 While I debated multithreading it, just to see the change, I ultimately decided that beyond just proving it could be done.  Solving all the starting points simultaneously would have a huge impact.
+
+## State?
+No known bugs.  Works.
