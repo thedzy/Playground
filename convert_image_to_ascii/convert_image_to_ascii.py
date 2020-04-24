@@ -39,8 +39,9 @@ def main():
     # Load image
     image = Image.open(image_name)
 
-    # Get dimension
-    window_width, window_height = os.get_terminal_size()
+    # Get dimension but skip entirely if using custom settings
+    if options.custom_width is None or options.custom_height is None:
+        window_width, window_height = os.get_terminal_size()
     image_width, image_height = image.size
 
     # Allow override of dimensions
@@ -142,7 +143,7 @@ if __name__ == '__main__':
     # Text of character to render from
     parser.add_argument('-s', '--shader', type=str,
                         action='store', dest='shader',
-                        default=' .\'`^",:;Il!i><~+_-?][}{1)(|\\/tfjrxnuvczXYUJCLQ0OZmwqpdbkhao*#MW&8%B@$',
+                        default=' .\'`^",:;Il!i><~+_-?][}{1)(|\\/tfjrxnuvczXYUJCLQ0OZmwqpdbkhao*#MW&8%B@$▒',
                         help='Dark to light characters to use'
                              '\nDefault: %(default)s')
 
