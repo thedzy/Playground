@@ -197,7 +197,7 @@ def print_board(board):
     print(footer)
 
 
-def ai_move(board, length=4, player_range=(1, 2)):
+def ai_move(board, length=4, player_order=(1, 2)):
     """
     Calculate the best move for the ai
     NOt the best ai, but more reasonable enough to make the game a bit of a challenge
@@ -229,9 +229,9 @@ def ai_move(board, length=4, player_range=(1, 2)):
     # Iterate through the lengths starting from the top
     while True:
         # Check for self and opposition to block
-        for player in player_range:
+        for player in player_order:
             # Threshold where it does make sens to try and block the opposition
-            if desired_length < length and player == 2:
+            if desired_length < length and player == player_order[1]:
                 continue
 
             # Check every position on the board for a move in the desired length
