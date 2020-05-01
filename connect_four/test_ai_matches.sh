@@ -3,7 +3,7 @@
 # Change to the directory with the script
 cd $(dirname $0)
 
-# Initilaise varaibles
+# Initialise variables
 RED=0
 BLUE=0
 
