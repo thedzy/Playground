@@ -92,13 +92,13 @@ def main():
         # Get user selection
         print(' ' * 80, end='\r')
         if options.ai and red_turn:
-            selection = str(ai_move(board, options.length))
+            selection = str(ai_move(board, options.length, (1, 2)))
         else:
             if options.self_play:
-                selection = str(random.randint(0, width))
+                selection = str(ai_move(board, options.length, (2, 1)))
             else:
                 selection = input('Column number? ')
-
+    
         if selection == 'exit':
             exit()
         if not selection.isdigit():
@@ -197,7 +197,7 @@ def print_board(board):
     print(footer)
 
 
-def ai_move(board, length):
+def ai_move(board, length=4, player_range=(1,2)):
     """
     Calculate the best move for the ai
     NOt the best ai, but more reasonable enough to make the game a bit of a challenge
@@ -228,7 +228,7 @@ def ai_move(board, length):
     # Iterate through the lengths starting from the top
     while True:
         # Check for self and opposition to block
-        for player in (1, 2):
+        for player in player_range:
             # Threshold where it does make sens to try and block the opposition
             if desired_length < length and player == 2:
                 continue
