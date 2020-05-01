@@ -60,7 +60,7 @@ def main():
 
     while True:
         # Reset the cursor each time to draw over the existing board
-        set_cursor(reset=False)
+        set_cursor(reset=options.debug)
 
         # Print the board
         print_board(board)
@@ -98,7 +98,7 @@ def main():
                 selection = str(ai_move(board, options.length, (2, 1)))
             else:
                 selection = input('Column number? ')
-    
+
         if selection == 'exit':
             exit()
         if not selection.isdigit():
@@ -119,7 +119,7 @@ def main():
             continue
 
         # Find the first available position for the move
-        for index in range(width):
+        for index in range(height):
             if board[selection - 1][index] == 0:
                 if red_turn:
                     board[selection - 1][index] = 1
@@ -127,7 +127,7 @@ def main():
                     board[selection - 1][index] = 2
                 break
 
-        # MOve turn to the other player
+        # Move turn to the other player
         red_turn = False if red_turn else True
 
 
@@ -197,12 +197,13 @@ def print_board(board):
     print(footer)
 
 
-def ai_move(board, length=4, player_range=(1,2)):
+def ai_move(board, length=4, player_range=(1, 2)):
     """
     Calculate the best move for the ai
     NOt the best ai, but more reasonable enough to make the game a bit of a challenge
     :param board: (list)(list) Game board matrix
     :param length: (int) length of move to start at
+    :param player_range: (tuple)(int) Player, opponent
     :return: (int) Move column
     """
     desired_length = length
@@ -246,8 +247,7 @@ def ai_move(board, length=4, player_range=(1,2)):
                                 n += 1
 
                             if options.debug:
-                                print('Direction:', '-', 'Length:', desired_length)
-                                print('Position: ', row + n, col + 0)
+                                print('Direction:', '-', 'Length:', desired_length, 'Position: ', row + n, col + 0)
 
                             if col + 0 == 0:
                                 return row + n + 1
@@ -265,8 +265,7 @@ def ai_move(board, length=4, player_range=(1,2)):
                                 n += 1
 
                             if options.debug:
-                                print('Direction:', '|', 'Length:', desired_length)
-                                print('Position: ', row + 0, col + n)
+                                print('Direction:', '|', 'Length:', desired_length, 'Position: ', row + 0, col + n)
 
                             if col + n == 0:
                                 return row + 0 + 1
@@ -284,8 +283,7 @@ def ai_move(board, length=4, player_range=(1,2)):
                                 n += 1
 
                             if options.debug:
-                                print('Direction:', '/', 'Length:', desired_length)
-                                print('Position: ', row + n, col + n)
+                                print('Direction:', '/', 'Length:', desired_length, 'Position: ', row + n, col + n)
 
                             if col + n == 0:
                                 return row + n + 1
@@ -304,8 +302,7 @@ def ai_move(board, length=4, player_range=(1,2)):
                                     n += 1
 
                                 if options.debug:
-                                    print('Direction:', '\\', 'Length:', desired_length)
-                                    print('Position: ', row + n, col - n)
+                                    print('Direction:', '\\', 'Length:', desired_length, 'Position: ', row + n, col - n)
 
                                 if col - n == 0:
                                     return row + n + 1
