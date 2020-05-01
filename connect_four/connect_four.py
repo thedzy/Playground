@@ -33,7 +33,7 @@ def main():
         options.width = int(terminal_width / 4)
 
     if options.height == 0:
-        options.height = int(terminal_height / 2) - 3
+        options.height = int(terminal_height / 2) - 4
 
     width = options.width
     height = options.height
@@ -83,18 +83,22 @@ def main():
             print('Tie Game!')
             exit()
 
-        # Get user selection
-        if options.debug:
-            selection = str(random.randint(0, width))
+        # Display the persons move
+        if red_turn:
+            print('Turn: Red')
         else:
-            # Display the persons move
-            if red_turn:
-                print('Turn: Red')
-            else:
-                print('Turn: Blue')
+            print('Turn: Blue')
 
-            print(' ' * 80, end='\r')
-            selection = input('Column number? ')
+        # Get user selection
+        print(' ' * 80, end='\r')
+        if options.ai and red_turn:
+            selection = str(ai_move(board, options.length))
+        else:
+            if options.self_play:
+                selection = str(random.randint(0, width))
+            else:
+                selection = input('Column number? ')
+
         if selection == 'exit':
             exit()
         if not selection.isdigit():
@@ -191,6 +195,127 @@ def print_board(board):
     for num in range(width):
         footer += str(num + 1).center(4)
     print(footer)
+
+
+def ai_move(board, length):
+    """
+    Calculate the best move for the ai
+    NOt the best ai, but more reasonable enough to make the game a bit of a challenge
+    :param board: (list)(list) Game board matrix
+    :param length: (int) length of move to start at
+    :return: (int) Move column
+    """
+    desired_length = length
+
+    def feasibility(positions, test_player=1):
+        """
+        Check the feasibility that there is a pattern before trying to find the move
+        Essentially check that there is a pattern that could be a move
+        :param positions: (list)(int) Pattern we are checking
+        :param test_player: (int) Player was are testing for
+        :return:
+        """
+        test_opposition = 2 if test_player == 1 else 1
+        if positions.count(test_player) == desired_length - 1 and positions.count(test_opposition) == 0:
+            if options.debug:
+                print('\n', positions)
+            return True
+        return False
+
+    height = len(board[0])
+    width = len(board)
+
+    # Iterate through the lengths starting from the top
+    while True:
+        # Check for self and opposition to block
+        for player in (1, 2):
+            # Threshold where it does make sens to try and block the opposition
+            if desired_length < length and player == 2:
+                continue
+
+            # Check every position on the board for a move in the desired length
+            for col in range(height):
+                for row in range(width):
+                    try:
+                        feasible = feasibility(list(board[row + n][col + 0] for n in range(desired_length)), player)
+                        if feasible:
+                            n = 0
+                            while True:
+                                if board[row + n][col + 0] == 0:
+                                    break
+                                n += 1
+
+                            if options.debug:
+                                print('Direction:', '-', 'Length:', desired_length)
+                                print('Position: ', row + n, col + 0)
+
+                            if col + 0 == 0:
+                                return row + n + 1
+                            elif board[row + n][col + 0 - 1] != 0:
+                                return row + n + 1
+                    except IndexError:
+                        pass
+                    try:
+                        feasible = feasibility(list(board[row + 0][col + n] for n in range(desired_length)), player)
+                        if feasible:
+                            n = 0
+                            while True:
+                                if board[row + 0][col + n] == 0:
+                                    break
+                                n += 1
+
+                            if options.debug:
+                                print('Direction:', '|', 'Length:', desired_length)
+                                print('Position: ', row + 0, col + n)
+
+                            if col + n == 0:
+                                return row + 0 + 1
+                            elif board[row + 0][col + n - 1] != 0:
+                                return row + 0 + 1
+                    except IndexError:
+                        pass
+                    try:
+                        feasible = feasibility(list(board[row + n][col + n] for n in range(desired_length)), player)
+                        if feasible:
+                            n = 0
+                            while True:
+                                if board[row + n][col + n] == 0:
+                                    break
+                                n += 1
+
+                            if options.debug:
+                                print('Direction:', '/', 'Length:', desired_length)
+                                print('Position: ', row + n, col + n)
+
+                            if col + n == 0:
+                                return row + n + 1
+                            elif board[row + n][col + n - 1] != 0:
+                                return row + n + 1
+                    except IndexError:
+                        pass
+                    try:
+                        feasible = feasibility(list(board[row + n][col - n] for n in range(desired_length)), player)
+                        if col - (desired_length - 1) < 0:
+                            if feasible:
+                                n = 0
+                                while True:
+                                    if board[row + n][col - n] == 0:
+                                        break
+                                    n += 1
+
+                                if options.debug:
+                                    print('Direction:', '\\', 'Length:', desired_length)
+                                    print('Position: ', row + n, col - n)
+
+                                if col - n == 0:
+                                    return row + n + 1
+                                elif board[row + n][col - n - 1] != 0:
+                                    return row + n + 1
+                    except IndexError:
+                        pass
+        desired_length -= 1
+        if desired_length <= 1:
+            return random.randint(0, width)
 
 
 def check_winner(board, length=4):
@@ -314,6 +439,10 @@ if __name__ == '__main__':
         formatter_class=parser_formatter(argparse.RawTextHelpFormatter,
                                          indent_increment=4, max_help_position=12, width=160))
 
+    parser.add_argument('-s', '--single-player',
+                        action='store_true', dest='ai', default=False,
+                        help='Play against the computer')
+
     # Custom width and heights
     parser.add_argument('-x ', '--width', type=int,
                         action='store', dest='width', default=7,
@@ -338,8 +467,15 @@ if __name__ == '__main__':
                         action='store_true', dest='debug', default=False,
                         help='Debug the program'
                              '\nDefault: %(default)s')
+    parser.add_argument('--self',
+                        action='store_true', dest='self_play', default=False,
+                        help='Let the computer run on its own'
+                             '\nDefault: %(default)s')
 
     options = parser.parse_args()
+
+    if options.self_play:
+        options.ai = True
 
     if options.how:
         how_to_play()

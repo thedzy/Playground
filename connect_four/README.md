@@ -23,13 +23,13 @@ Note: Does have colour in game
 
 ## What?
 
-Play a single two player connect 4 game.
+Play a single or two player connect 4/connect four game.
 
 You can use a custom dthe puzzle size and connect length\
 Connect 5 anyone?
 
 ```bash
-usage: connect_four.py [-h] [-x  WIDTH] [-y HEIGHT] [-c {3,4,5,6,7,8,9,10,11,12,13,14,15}] [-r] [--debug]
+usage: connect_four.py [-h] [-s] [-x  WIDTH] [-y HEIGHT] [-c {3,4,5,6,7,8,9,10,11,12,13,14,15}] [-r] [--debug] [--self]
 
 Connect Four
 aka. Four Up, Plot Four, Find Four, Four in a Row, Four in a Line, Drop Four, and Gravitrips (in Soviet Union)
@@ -37,6 +37,8 @@ aka. Four Up, Plot Four, Find Four, Four in a Row, Four in a Line, Drop Four, an
 optional arguments:
     -h, --help
             show this help message and exit
+    -s, --single-player
+            Play against the computer
     -x  WIDTH, --width WIDTH
             Custom width of the board, use zero for maximum width
             Default: 7
@@ -51,13 +53,16 @@ optional arguments:
     --debug
             Debug the program
             Default: False
+    --self  Let the computer run on its own
+            Default: False
 ```
 
 ## Why?
 Great question.
 
 ## Improvements?
-'AI second player', I think that would be a next step
+Improve the ```
 
+```
 ## State?
-No known bugs.  Not 100% confident.  I ran the puzzle over and over, but it's tedious to check.
+I saw in one test that it did not find the win.  The only unique thing I can say I saw was the board was full but that doesn't explain it.
