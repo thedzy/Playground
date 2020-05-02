@@ -4,7 +4,7 @@
 Script:	hangman.py
 Date:	2020-04-27
 
-Platform: MacOS
+Platform: MacOS/Windows/Linux
 
 Description:
 A Cryptogram game using a simple substitution cipher.
@@ -183,11 +183,19 @@ def main():
 
 
 def set_cursor(y_position=0, x_position=0, reset=True):
-    # Send an ansi clear
-    if reset:
-        print('\033[2J')
-    # Set the cursor
-    print('\033[{:d};{:d}H'.format(y_position, x_position))
+    """
+    Set the terminal/console cursor position and whether to clear the screen
+    :param y_position: (int) Row
+    :param x_position: (int) Column
+    :param reset: (bool) Clear the screen
+    :return: (void)
+    """
+    if os.name is not 'nt':
+        # Send an ansi clear
+        if reset:
+            print('\033[2J')
+        # Set the cursor
+        print('\033[{:d};{:d}H'.format(y_position, x_position))
 
 
 def how_to_play():
