@@ -20,7 +20,7 @@ __status__ = 'Developer'
 import argparse
 import os
 
-from PIL import Image
+from PIL import Image, ImageFont, ImageDraw, ImageStat
 
 
 def main():
@@ -32,9 +32,33 @@ def main():
     if options.black_on_white:
         options.shader = options.shader[::-1]
 
-    # Create shaders
-    shaders = list(options.shader)
-    shaders_length = len(shaders) - 1
+    # Create shader
+    if options.characters is not None:
+        # Filter out duplicates
+        characters = list(set(options.characters))
+
+        # Load font to be used
+        font = ImageFont.truetype(options.font.name, 18)
+        options.font.close()
+
+        # Get average brightness of a character
+        character_values = {}
+        for character in characters:
+            character_image = Image.new('L', (10, 20), 0)
+            draw = ImageDraw.Draw(character_image)
+            draw.text((0, 0), character, font=font, fill=255, align='center')
+            image_mean = ImageStat.Stat(character_image).mean[0]
+            character_values[character] = image_mean
+
+        # Sort the values into an array
+        shader = []
+        while len(character_values) > 0:
+            key = min(character_values, key=character_values.get)
+            shader.append(key)
+            del character_values[key]
+    else:
+        shader = list(options.shader)
+    shader_length = len(shader) - 1
 
     # Load image
     image = Image.open(image_name)
@@ -76,7 +100,7 @@ def main():
         row = []
         for y in range(new_height):
             image_pixel = image_data.getpixel((x, y))
-            image_contrast = int(colour_contrast_rgb(image_pixel[0], image_pixel[1], image_pixel[2]) * shaders_length)
+            image_contrast = int(colour_contrast_rgb(image_pixel[0], image_pixel[1], image_pixel[2]) * shader_length)
             row.append(image_contrast)
         image_matrix.append(row)
 
@@ -84,7 +108,7 @@ def main():
     file_data = ''
     for y in range(new_height):
         for x in range(new_width):
-            file_data += shaders[image_matrix[x][y]]
+            file_data += shader[image_matrix[x][y]]
         file_data += '\n'
 
     # Print and/or save
@@ -146,6 +170,16 @@ if __name__ == '__main__':
                         default=' .\'`^",:;Il!i><~+_-?][}{1)(|\\/tfjrxnuvczXYUJCLQ0OZmwqpdbkhao*#MW&8%B@$',
                         help='Dark to light characters to use'
                              '\nDefault: %(default)s')
+
+    # Text of character to render from
+    parser.add_argument('-c', '--chars', type=str,
+                        action='store', dest='characters', default=None,
+                        help='Dark to light characters to use\n'
+                             'Overrides -s/--shader')
+    parser.add_argument('-f', '--font', type=argparse.FileType('r'),
+                        action='store', dest='font', default='/System/Library/Fonts/Menlo.ttc',
+                        help='Font used to determine brightness when specifing characters\n'
+                             'Required for non-macOS systems')
 
     # Custom width and heights
     parser.add_argument('-x', '--width', type=int,
