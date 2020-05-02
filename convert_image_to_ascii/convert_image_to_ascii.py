@@ -28,10 +28,6 @@ def main():
     image_name = options.image_file.name
     options.image_file.close()
 
-    # Invert if black on white
-    if options.black_on_white:
-        options.shader = options.shader[::-1]
-
     # Create shader
     if options.characters is not None:
         # Filter out duplicates
@@ -59,6 +55,11 @@ def main():
     else:
         shader = list(options.shader)
     shader_length = len(shader) - 1
+
+    # Invert if black on white
+    if options.black_on_white:
+        shader = shader[::-1]
+
 
     # Load image
     image = Image.open(image_name)
