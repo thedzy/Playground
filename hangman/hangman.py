@@ -194,11 +194,20 @@ def print_man(errors=0):
     print()
 
 
-def reset_screen(y_position=0, x_position=0):
-    # Send an ansi clear
-    print('\033[2J')
-    # Set the cursor
-    print('\033[{:d};{:d}H'.format(y_position, x_position))
+def reset_screen(y_position=0, x_position=0, reset=True):
+    """
+    Set the terminal/console cursor position and whether to clear the screen
+    :param y_position: (int) Row
+    :param x_position: (int) Column
+    :param reset: (bool) Clear the screen
+    :return: (void)
+    """
+    if os.name is not 'nt':
+        # Send an ansi clear
+        if reset:
+            print('\033[2J')
+        # Set the cursor
+        print('\033[{:d};{:d}H'.format(y_position, x_position))
 
 
 if __name__ == '__main__':
