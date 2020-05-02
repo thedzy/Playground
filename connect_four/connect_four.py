@@ -4,7 +4,7 @@
 Script:	connect_four.py
 Date:	2020-04-30
 
-Platform: MacOS
+Platform: MacOS/Window/Linux
 
 Description:
 Connect Four or Connect 4
@@ -149,7 +149,11 @@ def print_board(board):
         :return: (void)
         """
         symbol = [' ', 'O', 'X']
-        colour = ['\033[0;37;40m', '\033[1;30;41m', '\x1b[6;30;44m']
+        if os.name is 'nt':
+            colour = ['', '', '']
+
+        else:
+            colour = ['\033[0;37;40m', '\033[1;30;41m', '\x1b[6;30;44m']
         row_string = ''
         for item in items:
             row_string += '{}{} {} {}'.format('|', colour[item], symbol[item], colour[0])
@@ -363,6 +367,22 @@ def check_winner(board, length=4):
     return 0
 
 
+def set_cursor(y_position=0, x_position=0, reset=True):
+    """
+    Set the terminal/console cursor position and whether to clear the screen
+    :param y_position: (int) Row
+    :param x_position: (int) Column
+    :param reset: (bool) Clear the screen
+    :return: (void)
+    """
+    if os.name is not 'nt':
+        # Send an ansi clear
+        if reset:
+            print('\033[2J')
+        # Set the cursor
+        print('\033[{:d};{:d}H'.format(y_position, x_position))
+
+
 def how_to_play():
     """
     Game help screen
@@ -397,21 +417,6 @@ def how_to_play():
     print('Get 4 pieces in a diagonal or up/down arrangement to win')
 
     print('Type \'exit\' to quit\n')
-
-
-def set_cursor(y_position=0, x_position=0, reset=True):
-    """
-    Set the terminal/console cursor position and whether to clear the screen
-    :param y_position: (int) Row
-    :param x_position: (int) Column
-    :param reset: (bool) Clear the screen
-    :return: (void)
-    """
-    # Send an ansi clear
-    if reset:
-        print('\033[2J')
-    # Set the cursor
-    print('\033[{:d};{:d}H'.format(y_position, x_position))
 
 
 if __name__ == '__main__':

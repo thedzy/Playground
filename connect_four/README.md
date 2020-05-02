@@ -19,7 +19,7 @@ aka. Four Up, Plot Four, Find Four, Four in a Row, Four in a Line, Drop Four, an
 +---+---+---+---+---+---+---+
   1   2   3   4   5   6   7
 ```
-Note: Does have colour in game
+Note: Does have colour in game (not in Windows)
 
 ## What?
 
