@@ -4,7 +4,7 @@
 Script:	convert_image_to_ascii.py
 Date:	2020-04-24
 
-Platform: MacOS
+Platform: MacOS/Windows/Linux
 
 Description:
 Convert an image to ascii
@@ -143,7 +143,7 @@ if __name__ == '__main__':
     # Text of character to render from
     parser.add_argument('-s', '--shader', type=str,
                         action='store', dest='shader',
-                        default=' .\'`^",:;Il!i><~+_-?][}{1)(|\\/tfjrxnuvczXYUJCLQ0OZmwqpdbkhao*#MW&8%B@$▒',
+                        default=' .\'`^",:;Il!i><~+_-?][}{1)(|\\/tfjrxnuvczXYUJCLQ0OZmwqpdbkhao*#MW&8%B@$',
                         help='Dark to light characters to use'
                              '\nDefault: %(default)s')
 
