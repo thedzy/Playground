@@ -4,7 +4,7 @@
 Script:	hangman.py
 Date:	2020-04-24
 
-Platform: MacOS
+Platform: MacOS/Window/Linux
 
 Description:
 A traditional hangman game.  Customisable hangman art, words, phrases, and dictionary
