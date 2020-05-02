@@ -3,7 +3,7 @@
 Script:	boggle_solver.py
 Date:	2020-04-11
 
-Platform: macOS
+Platform: macOS/Windows/Linux
 
 Description:
 Solve a boggle puzzle
@@ -18,8 +18,9 @@ __maintainer__ = "thedzy"
 __email__ = "thedzy@hotmail.com"
 __status__ = "Developer"
 
-import math
 import argparse
+import math
+import os
 import random
 
 
@@ -190,11 +191,12 @@ if __name__ == '__main__':
                         help='Minimum word length'
                              '\nDefault: %(default)s')
 
-    # Dictionary
+    # Dictionary/word/phrase
     parser.add_argument('-d', '--dict', type=argparse.FileType('r'),
-                        action='store', dest='dictionary', default='/usr/share/dict/words',
-                        help='Dictionary file to use, '
-                             '\nDefault: %(default)s (not recommended to use default)')
+                        action='store', dest='dictionary',
+                        default=os.path.join(os.path.dirname(__file__), 'collins_scrabble_words_2019.txt'),
+                        help='Dictionary file to use'
+                             '\nDefault: %(default)s')
 
     # Puzzle
     parser.add_argument('-p', '--puzzle', dest='puzzle',
