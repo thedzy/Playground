@@ -18,22 +18,16 @@ __status__ = "Developer"
 
 
 def main():
-    for n in range(1000):
+    for n in range(1001):
         print('fibonacci({:2}) : {}'.format(n, fibonacci(n)))
-
 
 def fibonacci(n):
     n1, n2 = 1, 0
-    index = 0
     sum_of_values = 0
-    while True:
-        if n <= index:
-            return sum_of_values
-
+    for _ in range(n):
         sum_of_values = n1 + n2
         n1, n2 = n2, sum_of_values
-
-        index += 1
+    return sum_of_values
 
 
 if __name__ == '__main__':
