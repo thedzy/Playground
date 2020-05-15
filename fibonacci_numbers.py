@@ -23,11 +23,10 @@ def main():
 
 def fibonacci(n):
     n1, n2 = 1, 0
-    sum_of_values = 0
     for _ in range(n):
         sum_of_values = n1 + n2
         n1, n2 = n2, sum_of_values
-    return sum_of_values
+    return locals().get('sum_of_values', 0)
 
 
 if __name__ == '__main__':
