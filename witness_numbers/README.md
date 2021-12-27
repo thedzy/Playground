@@ -1,4 +1,4 @@
-# wireless_numbers.py
+# witness_numbers.py
 ## Miller–Rabin primality test
 
 Just a fun test to try the formula for the primality teat
