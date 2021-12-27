@@ -40,11 +40,13 @@ def main():
     # Filter out anything that will not calculate
     if n == 1:
         logging.debug('Come on. 1 is not prime')
-        logging.info(f'{n} is not Prime')
+        if options.display_primes:
+            logging.info(f'{n} is not Prime')
         exit()
     if n % 2 == 0:
         logging.debug('Come on. don\'t be crazy, that\'s an even number')
-        logging.info(f'{n} is not Prime')
+        if options.display_primes:
+            logging.info(f'{n} is not Prime')
         exit()
 
     # Get a list of witnesses
