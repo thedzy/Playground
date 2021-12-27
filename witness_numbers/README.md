@@ -3,7 +3,7 @@
 
 Just a fun test to try the formula for the primality teat
 
-### usgae:
+### usage:
 ```
 usage: witness_numbers.py [-h] [-p] number
 
