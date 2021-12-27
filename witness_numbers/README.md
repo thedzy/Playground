@@ -1,9 +1,9 @@
-#wireless_numbers.py
-##Miller–Rabin primality test
+# wireless_numbers.py
+## Miller–Rabin primality test
 
 Just a fun test to try the formula for the primality teat
 
-###usgae:
+### usgae:
 ```
 usage: witness_numbers.py [-h] [-p] number
 
