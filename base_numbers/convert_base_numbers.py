@@ -76,12 +76,12 @@ def convert_base(decimal, base):
     :param base: (int) Base to convert to
     :return: (str) New number
     """
-    if decimal > (base - 1):
+    if decimal < base:
+        return SCALE[decimal]
+    else:
         remainder = convert_base(decimal // base, base)
         logging.debug(f'Decimal: {SCALE[decimal % base]} % {remainder}')
         return f'{SCALE[decimal % base]}{remainder}'
-    else:
-        return SCALE[decimal]
 
 
 if __name__ == '__main__':
