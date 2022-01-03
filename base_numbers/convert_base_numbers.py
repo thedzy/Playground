@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Script:	base_numbers.py
+Script: convert_base_numbers.py
 Date:	2022-01-01	
 
 Platform: macOS/Windows/Linux
