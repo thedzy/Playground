@@ -140,8 +140,10 @@ if __name__ == '__main__':
             try:
                 bases[int(key)] = value
                 if not 37 > int(key) > 1:
+                    arg = arg.split('=')[0] if '=' in arg else arg
                     parser.error(f'unrecognized arguments: {arg}')
             except ValueError:
+                arg = arg.split('=')[0] if '=' in arg else arg
                 parser.error(f'unrecognized arguments: {arg}')
 
     # Check that we only got 2 arguments
