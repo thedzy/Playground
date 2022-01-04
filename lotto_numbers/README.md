@@ -5,7 +5,8 @@ Playing around stats.
 I am not a statistician so my numbers may be very wrong
 
 ### usage:
-usage: lotto_numbers.py [-h] -d DIGITS -n NUMBERS
+```
+usage: lotto_numbers.py [-h] -d DIGITS -n NUMBERS [-p PRICE]
 
 lotto stats
 
@@ -15,4 +16,6 @@ optional arguments:
                         how many numbers do you have to pick?
   -n NUMBERS, --number NUMBERS
                         how large are the numbers
+  -p PRICE, --price PRICE
+                        price of a ticket
 ```
