@@ -21,7 +21,7 @@ __description__ = '''
 
 import argparse
 import logging
-import math
+import random
 
 
 def main():
@@ -33,11 +33,11 @@ def main():
     # https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1310040901
     life_expectancy = 81.1
 
+    # Odds of jackpot
     odds = factorial(options.numbers, options.digits) / factorial(options.digits)
     logging.debug(f'({factorial(49, 6)} / {factorial(6)}) * ({factorial(43, 0)} / {factorial(0)})')
 
-    lightning_odds = lightning(odds / 2)
-
+    # Odds of winning all the sub prizes
     logging.info(f'Odds of winning the jackpot: 1 in {comma_format(odds)}')
     justification = len(str(odds))
     logging.info(f'{"Picks":^10} {"Odds":>{justification}}')
@@ -56,10 +56,14 @@ def main():
                                    factorial(options.numbers - digits - x, x) / factorial(x)
                            ))
         logging.info(f'{digits:^10} {comma_format(int(sub_odds)):>{justification}}')
+
+    # Odds of being stuck by lightning
+    lightning_odds = lightning(odds / 2)
     logging.info(f'You will likely be struck by lightning between {lightning_odds} time(s) before winning the jackpot')
 
     print()
 
+    # How many times you need to play
     for frequency, interval in (('day', 365,), ('week', 52,), ('month', 12,), ('year', 1,)):
         logging.info(f'PLAY EVERY {frequency.upper()}')
         logging.info(f'Years to likely win if you played every '
@@ -78,11 +82,22 @@ def main():
 
         print()
 
+    # Cost of winning
     logging.info(f'Cost of likely win the jackpot ${comma_format(options.price * odds / 2)}')
     logging.info(f'Cost to guarantee the jackpot ${comma_format(options.price * odds)}')
 
-
     print()
+
+    # Lucky Numbers
+    logging.info('Your lucky numbers (you knew it was coming)')
+    luck_numbers = ''
+    numbers = list(range(1, options.numbers + 1))
+    digit_length = len(str(options.numbers))
+    for _ in range(options.digits):
+        luck_number = random.choice(numbers)
+        numbers.remove(luck_number)
+        luck_numbers += f'{luck_number:0{digit_length}} '
+    print(luck_numbers)
 
 
 def factorial(number, digits=None):
